@@ -8,12 +8,16 @@ services:
       - APP_PORT=8080
       - REDIS_ADDRESS=redis
       - REDIS_PORT=6379
+    labels:
+      - "io.prometheus.container.name=webapp"
     depends_on:
       - redis
 
   redis:
     image: redis:alpine
     container_name: redis
+    labels:
+      - "io.prometheus.container.name=redis"
 
   prometheus:
     image: prom/prometheus
@@ -38,5 +42,3 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    command:
-      - '--docker_only=true'
